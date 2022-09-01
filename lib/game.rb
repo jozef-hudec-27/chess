@@ -1,5 +1,6 @@
 require_relative 'display'
 require_relative 'player'
+require_relative 'pieces'
 
 # Main class including main logic of the game
 class Chess
@@ -14,21 +15,27 @@ class Chess
   def assemble_board
     base = Array.new(8) { Array.new(8, nil) }
 
-    base[0][0], base[0][-1] = Display.rook_black, Display.rook_black
-    base[0][1], base[0][-2] = Display.knight_black, Display.knight_black
-    base[0][2], base[0][-3] = Display.bishop_black, Display.bishop_black
-    base[0][3], base[0][4] = Display.queen_black, Display.king_black
-    base[1] = Array.new(8, Display.pawn_black)
+    base[0][0], base[0][-1] = Rook.new('black'), Rook.new('black')
+    base[0][1], base[0][-2] = Knight.new('black'), Knight.new('black')
+    base[0][2], base[0][-3] = Bishop.new('black'), Bishop.new('black')
+    base[0][3], base[0][4] = Queen.new('black'), King.new('black')
+    base[1] = Array.new(8) { Pawn.new('black') }
 
-    base[6] = Array.new(8, Display.pawn_white)
-    base[7][0], base[7][-1] = Display.rook_white, Display.rook_white
-    base[7][1], base[7][-2] = Display.knight_white, Display.knight_white
-    base[7][2], base[7][-3] = Display.bishop_white, Display.bishop_white
-    base[7][3], base[7][4] = Display.queen_white, Display.king_white
+    base[6] = Array.new(8) { Pawn.new('white') }
+    base[7][0], base[7][-1] = Rook.new('white'), Rook.new('white')
+    base[7][1], base[7][-2] = Knight.new('white'), Knight.new('white')
+    base[7][2], base[7][-3] = Bishop.new('white'), Bishop.new('white')
+    base[7][3], base[7][4] = Queen.new('white'), King.new('white')
 
     base
+  end
+
+  def pretty_print_board
+    pretty_row = ->(row) { row.map { |pos| pos.nil? ? ' ' : pos.unicode } }
+    pretty_board = board.map { |row| pretty_row.call(row) }
+    pretty_board.each { |row| p row }
   end
 end
 
 c = Chess.new
-p c.board
+c.pretty_print_board
