@@ -53,8 +53,9 @@ class Chess
   end
 
   def pretty_print_board
-    pretty_row = ->(row) { row.map { |pos| pos.nil? ? ' ' : pos.unicode } }
-    pretty_board = board.map { |row| pretty_row.call(row) }
+    pretty_row = ->(row, i) { [8 - i] + row.map { |pos| pos.nil? ? ' ' : pos.unicode } }
+    pretty_board = board.each_with_index.map { |row, i| pretty_row.call(row, i) }
+    pretty_board.unshift(['   ' + 'abcdefgh'.split('').join('    ')])
     pretty_board.each { |row| p row }
   end
 
