@@ -18,7 +18,14 @@ class Chess
     until game_over?
       pretty_print_board
       current_player = [player1, player2][round % 2]
+      puts "ROUD #{round + 1}: #{current_player.color}"
       piece_cord = current_player.choose_piece
+
+      if find_piece(piece_cord).available_moves.empty?
+        puts "You can't make a move with this piece. Select a new one."
+        next
+      end
+
       new_cord = current_player.choose_new_position(find_piece(piece_cord))
       current_player.move_piece(piece_cord, new_cord)
       round += 1
