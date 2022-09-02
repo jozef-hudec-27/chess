@@ -37,6 +37,16 @@ class Player
     end
   end
 
+  def move_piece(from, to)
+    from_row, from_col = *Player.coordinate_to_row_col(from)
+    to_row, to_col = *Player.coordinate_to_row_col(to)
+    moved_piece = board.find_piece(from)
+    moved_piece.row = Player.coordinate_to_row_col(to)[0]
+    moved_piece.col = Player.coordinate_to_row_col(to)[1]
+    board.board[from_row][from_col] = nil
+    board.board[to_row][to_col] = moved_piece
+  end
+
   def self.coordinate_to_row_col(cord)
     row = 8 - cord[1].to_i
     col = cord[0].ord - 'a'.ord

@@ -1,7 +1,8 @@
 require_relative 'display'
 
 class Piece
-  attr_reader :player, :row, :col, :board
+  attr_reader :player, :board
+  attr_accessor :row, :col
 
   def initialize(player, row, col)
     @player = player

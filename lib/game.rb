@@ -20,7 +20,8 @@ class Chess
       current_player = [player1, player2][round % 2]
       piece_cord = current_player.choose_piece
       new_cord = current_player.choose_new_position(find_piece(piece_cord))
-      
+      current_player.move_piece(piece_cord, new_cord)
+      round += 1
     end
   end
 
