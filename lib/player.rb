@@ -1,4 +1,6 @@
 class Player
+  attr_reader :color, :board
+
   def initialize(color, board)
     @color = color
     @board = board
@@ -19,8 +21,9 @@ class Player
     Player.valid_coordinate?(input)
   end
 
-  def choose_new_position
+  def choose_new_position(selected_piece_cord)
     puts 'Choose where you want to move selected piece.'
+    # puts "Available moves: #{available_moves(selected_piece_cord).join(' ')}"
 
     loop do
       position = gets.chomp
