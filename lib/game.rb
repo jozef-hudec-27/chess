@@ -12,6 +12,27 @@ class Chess
     @board = board || assemble_board
   end
 
+  def play
+    round = 0
+
+    until game_over?
+      pretty_print_board
+      current_player = [player1, player2][round % 2]
+      piece_cord = current_player.choose_piece
+      new_cord = current_player.choose_new_position(find_piece(piece_cord))
+      
+    end
+  end
+
+  def game_over?
+    false
+  end
+
+  def find_piece(cord)
+    row, col = *Player.coordinate_to_row_col(cord)
+    board[row][col]
+  end
+
   def assemble_board
     base = Array.new(8) { Array.new(8, nil) }
 
@@ -44,4 +65,4 @@ class Chess
 end
 
 c = Chess.new
-p c.board[0][0].available_moves
+c.play

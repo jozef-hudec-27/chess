@@ -18,26 +18,23 @@ class Player
   end
 
   def piece_input_valid?(input)
-    Player.valid_coordinate?(input)
-  end
-
-  def choose_new_position(selected_piece_cord)
-    puts 'Choose where you want to move selected piece.'
-    # puts "Available moves: #{available_moves(selected_piece_cord).join(' ')}"
-
-    loop do
-      position = gets.chomp
-      return position if position_input_valid?(position)
-
-      puts 'Invalid position.'
-    end
-  end
-
-  def position_input_valid?(input)
     return false unless Player.valid_coordinate?(input)
 
     row, col = *Player.coordinate_to_row_col(input)
-    @board.board[row][col].nil?
+    board.board[row][col]&.player == self
+  end
+
+  def choose_new_position(selected_piece)
+    puts 'Choose where you want to move selected piece.'
+    available_moves = selected_piece.available_moves.map { |r, c| Player.row_col_to_coordinate(r, c) }
+    puts "Available moves: #{available_moves.join(' ') }"
+
+    loop do
+      position = gets.chomp
+      return position if available_moves.include?(position)
+
+      puts 'Invalid position.'
+    end
   end
 
   def self.coordinate_to_row_col(cord)
@@ -46,7 +43,16 @@ class Player
     [row, col]
   end
 
+  def self.row_col_to_coordinate(row, col)
+    r = (8 - row).to_s
+    c = ('a'.ord + col).chr
+    c + r
+  end
+
   def self.valid_coordinate?(input)
-    'abcdefgh'.include?(input&.dig(0)) && '12345678'.include?(input&.dig(1))
+    return false unless input.length == 2
+
+    input = input.split('')
+    'abcdefgh'.include?(input[0]) && '12345678'.include?(input[1])
   end
 end
