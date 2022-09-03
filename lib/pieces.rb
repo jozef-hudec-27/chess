@@ -84,7 +84,7 @@ class King < Piece
 
   def checked?
     enemy_pieces.each do |piece|
-      enemy_moves = piece.class == King ? available_moves_places(King.MOVE_DIFFERENCES, piece) : piece.available_moves
+      enemy_moves = piece.instance_of?(King) ? piece.available_moves_places(King.MOVE_DIFFERENCES, piece) : piece.available_moves
       return true if enemy_moves.include?([row, col])
     end
 
