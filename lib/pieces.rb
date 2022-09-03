@@ -40,6 +40,15 @@ class Piece
     moves
   end
 
+  def enemy_pieces
+    board.board.flatten.filter { |piece| piece && piece.player.color != player.color }
+  end
+
+  def set_position(r = row, c = col)
+    self.row = r
+    self.col = c
+  end
+
   def self.DIAGONAL_TRAVERSE_DIRECTIONS
     [[-1, -1], [-1, 1], [1, -1], [1, 1]]
   end
@@ -56,6 +65,55 @@ class King < Piece
 
   def available_moves
     available_moves_places([[-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]], self)
+  end
+
+  def checked?
+    enemy_pieces.each do |piece|
+      return true if piece.available_moves.include?([row, col])
+    end
+
+    false
+  end
+
+  def mated?
+    return false unless checked?
+
+    original_row, original_col = row, col
+
+    available_moves.each do |r, c|
+      set_position(r, c)
+
+      unless checked?
+        set_position(original_row, original_col)
+        return false
+      end
+    end
+
+    set_position(original_row, original_col)
+
+    true
+  end
+
+  def stalemated?
+    return false if checked?
+
+    invalid_moves = 0
+    original_row, original_col = row, col
+
+    available_moves.each do |r, c|
+      set_position(r, c)
+
+      unless checked?
+        set_position(original_row, original_col)
+        return false
+      end
+
+      invalid_moves += 1
+    end
+
+    set_position(original_row, original_col)
+
+    !available_moves.empty? && invalid_moves == available_moves.length
   end
 end
 
