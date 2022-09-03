@@ -1,3 +1,5 @@
+require_relative 'pieces'
+
 class Player
   attr_reader :color, :board
 
@@ -39,8 +41,28 @@ class Player
 
   def move_piece(from, to)
     to_row, to_col = *Player.coordinate_to_row_col(to)
+    from_row, from_col = *Player.coordinate_to_row_col(from)
     moved_piece = board.find_piece(from)
     moved_piece.set_position(to_row, to_col)
+    transform_pawn(moved_piece, from_row, from_col, to_row, to_col) if [0, 7].include?(to_row) && moved_piece.instance_of?(Pawn)
+  end
+
+  def transform_pawn(pawn, original_row, original_col, new_row, new_col)
+    puts 'Your pawn reached the other side of the board! You can transform it to a Queen (1), Rook (2), Knight (3) or Bishop (4)'
+    transform_to = new_pawn_input
+    transformed_piece = [Queen, Rook, Knight, Bishop][transform_to - 1].new(self, original_row, original_col)
+    transformed_piece.set_position(new_row, new_col)
+  end
+
+  def new_pawn_input
+    puts 'Enter a number 1 to 4 of the piece you want to transform to.'
+
+    loop do
+      input = gets.chomp
+      return input.to_i if ['1', '2', '3', '4'].include?(input)
+
+      puts 'Invalid input. Please enter again.'
+    end
   end
 
   def self.coordinate_to_row_col(cord)
