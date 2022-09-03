@@ -38,7 +38,6 @@ class Player
   end
 
   def move_piece(from, to)
-    from_row, from_col = *Player.coordinate_to_row_col(from)
     to_row, to_col = *Player.coordinate_to_row_col(to)
     moved_piece = board.find_piece(from)
     moved_piece.set_position(to_row, to_col)

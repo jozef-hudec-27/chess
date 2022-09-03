@@ -63,7 +63,7 @@ end
 
 class King < Piece
   def unicode
-    @player.color == 'black' ? Display.king_black : Display.king_white
+    player.color == 'black' ? Display.king_black : Display.king_white
   end
 
   def available_moves
@@ -142,7 +142,7 @@ end
 
 class Queen < Piece
   def unicode
-    @player.color == 'black' ? Display.queen_black : Display.queen_white
+    player.color == 'black' ? Display.queen_black : Display.queen_white
   end
 
   def available_moves
@@ -153,7 +153,7 @@ end
 
 class Rook < Piece
   def unicode
-    @player.color == 'black' ? Display.bishop_black : Display.bishop_white
+    player.color == 'black' ? Display.bishop_black : Display.bishop_white
   end
 
   def available_moves
@@ -163,7 +163,7 @@ end
 
 class Bishop < Piece
   def unicode
-    @player.color == 'black' ? Display.bishop_black : Display.bishop_white
+    player.color == 'black' ? Display.bishop_black : Display.bishop_white
   end
 
   def available_moves
@@ -173,7 +173,7 @@ end
 
 class Knight < Piece
   def unicode
-    @player.color == 'black' ? Display.knight_black : Display.knight_white
+    player.color == 'black' ? Display.knight_black : Display.knight_white
   end
 
   def available_moves
@@ -183,7 +183,7 @@ end
 
 class Pawn < Piece
   def unicode
-    @player.color == 'black' ? Display.pawn_black : Display.pawn_white
+    player.color == 'black' ? Display.pawn_black : Display.pawn_white
   end
 
   def available_moves
@@ -193,7 +193,7 @@ class Pawn < Piece
     [-1, 1].each do |add_to_col|
       new_row, new_col = row + add_to_row, col + add_to_col
       moves.push([new_row, new_col]) if new_row.between?(0, 7) && new_col.between?(0, 7) &&
-        board.board[new_row][new_col] && board.board[new_row][new_col].player.color != player.color 
+        board.board[new_row][new_col] && board.board[new_row][new_col].player.color != player.color
     end
 
     moves.push([row + add_to_row, col]) if (row + add_to_row).between?(0, 7) && board.board[row + add_to_row][col].nil?

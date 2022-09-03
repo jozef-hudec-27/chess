@@ -4,13 +4,23 @@ require_relative 'pieces'
 
 # Main class including main logic of the game
 class Chess
-  attr_reader :board, :player1, :player2
-  attr_writer :board
+  attr_reader :board, :player1, :player2, :current_player, :round
 
   def initialize(board = nil, player1 = Player.new('white', self), player2 = Player.new('black', self))
     @player1 = player1
     @player2 = player2
+    @current_player = player1
+    @round = 0
     @board = board || assemble_board
+  end
+
+  def round_update
+    self.round = round + 1
+    change_current_player
+  end
+
+  def change_current_player
+    self.current_player = player1 == current_player ? player2 : player1
   end
 
   def play
@@ -19,12 +29,9 @@ class Chess
   end
 
   def game_loop
-    round = 0
-
     until game_over?
       pretty_print_board
-      current_player = [player1, player2][round % 2]
-      puts "ROUD #{round + 1}: #{current_player.color}"
+      puts "ROUND #{round + 1}: #{current_player.color}"
       piece_cord = current_player.choose_piece
 
       if find_piece(piece_cord).available_moves.empty?
@@ -34,7 +41,7 @@ class Chess
 
       new_cord = current_player.choose_new_position(find_piece(piece_cord))
       current_player.move_piece(piece_cord, new_cord)
-      round += 1
+      round_update
     end
   end
 
@@ -43,7 +50,7 @@ class Chess
 
     return puts "It's a draw!" if stalemate?
 
-    is_king1_mated = find_king(player1).mated?
+    is_king1_mated = find_king(player1).mated?(current_player)
 
     return puts "#{player1.color} is mated. #{player2.color} wins!" if is_king1_mated
 
@@ -55,7 +62,7 @@ class Chess
   end
 
   def mate?
-    find_king(player1).mated? || find_king(player2).mated?
+    find_king(player1).mated?(current_player) || find_king(player2).mated?(current_player)
   end
 
   def stalemate?
@@ -97,7 +104,7 @@ class Chess
   def pretty_print_board
     pretty_row = ->(row, i) { [8 - i] + row.map { |pos| pos.nil? ? '□' : pos.unicode } }
     pretty_board = board.each_with_index.map { |row, i| pretty_row.call(row, i) }
-    pretty_board.unshift(['   ' + 'abcdefgh'.split('').join('    ')])
+    pretty_board.unshift(["   #{'abcdefgh'.split('').join('    ')}"])
     pretty_board.each { |row| p row }
   end
 
@@ -106,6 +113,10 @@ class Chess
 
     board[row][col].nil? || (board[row][col].player.color != piece.player.color ? 'take' : false)
   end
+
+  private
+
+  attr_writer :board, :current_player, :round
 end
 
 c = Chess.new
