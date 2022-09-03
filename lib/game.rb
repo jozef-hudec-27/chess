@@ -13,6 +13,11 @@ class Chess
   end
 
   def play
+    game_loop
+    game_over_output
+  end
+
+  def game_loop
     round = 0
 
     until game_over?
@@ -32,8 +37,34 @@ class Chess
     end
   end
 
+  def game_over_output
+    puts "It's a draw!" if stalemate?
+    is_king1_mated = find_king(player1).mated?
+
+    return puts "#{player1.color} is mated. #{player2.color} wins!" if is_king1_mated
+    
+    puts "#{player2.color} is mated. #{player1.color} wins" 
+  end
+
   def game_over?
-    false
+    mate? || stalemate?
+  end
+
+  def mate?
+    find_king(player1).mated? || find_king(player2).mated?
+  end
+
+  def stalemate?
+    find_king(player1).stalemated? || find_king(player2).stalemated?
+  end
+
+  def find_king(player)
+    8.times do |row|
+      8.times do |col|
+        piece = board[row][col]
+        return piece if piece.instance_of?(King) && piece.player == player 
+      end
+    end
   end
 
   def find_piece(cord)
