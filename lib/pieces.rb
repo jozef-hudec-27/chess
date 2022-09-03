@@ -94,8 +94,8 @@ class King < Piece
     false
   end
 
-  def mated?
-    return false unless checked?
+  def mated?(cur_player)
+    return false unless checked? && cur_player.color != player.color
 
     original_row, original_col = row, col
 
