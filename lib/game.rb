@@ -5,6 +5,7 @@ require_relative 'pieces'
 # Main class including main logic of the game
 class Chess
   attr_reader :board, :player1, :player2
+  attr_writer :board
 
   def initialize(board = nil, player1 = Player.new('white', self), player2 = Player.new('black', self))
     @player1 = player1
@@ -38,11 +39,14 @@ class Chess
   end
 
   def game_over_output
-    puts "It's a draw!" if stalemate?
+    pretty_print_board
+
+    return puts "It's a draw!" if stalemate?
+
     is_king1_mated = find_king(player1).mated?
 
     return puts "#{player1.color} is mated. #{player2.color} wins!" if is_king1_mated
-    
+
     puts "#{player2.color} is mated. #{player1.color} wins" 
   end
 
@@ -91,7 +95,7 @@ class Chess
   end
 
   def pretty_print_board
-    pretty_row = ->(row, i) { [8 - i] + row.map { |pos| pos.nil? ? ' ' : pos.unicode } }
+    pretty_row = ->(row, i) { [8 - i] + row.map { |pos| pos.nil? ? '□' : pos.unicode } }
     pretty_board = board.each_with_index.map { |row, i| pretty_row.call(row, i) }
     pretty_board.unshift(['   ' + 'abcdefgh'.split('').join('    ')])
     pretty_board.each { |row| p row }

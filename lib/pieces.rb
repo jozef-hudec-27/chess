@@ -45,6 +45,9 @@ class Piece
   end
 
   def set_position(r = row, c = col)
+    board.board[row][col] = nil
+    board.board[r][c] = self
+
     self.row = r
     self.col = c
   end
