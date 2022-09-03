@@ -64,12 +64,28 @@ class King < Piece
   end
 
   def available_moves
-    available_moves_places([[-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]], self)
+    possible_moves = available_moves_places(King.MOVE_DIFFERENCES, self)
+    possible_moves - invalid_moves(possible_moves)
+  end
+
+  def invalid_moves(moves)
+    invalid = []
+    original_row, original_col = row, col
+
+    moves.each do |r, c|
+      set_position(r, c)
+
+      invalid.push([r, c]) if checked?
+    end
+
+    set_position(original_row, original_col)
+    invalid
   end
 
   def checked?
     enemy_pieces.each do |piece|
-      return true if piece.available_moves.include?([row, col])
+      enemy_moves = piece.class == King ? available_moves_places(King.MOVE_DIFFERENCES, piece) : piece.available_moves
+      return true if enemy_moves.include?([row, col])
     end
 
     false
@@ -97,7 +113,7 @@ class King < Piece
   def stalemated?
     return false if checked?
 
-    invalid_moves = 0
+    invalid_moves_count = 0
     original_row, original_col = row, col
 
     available_moves.each do |r, c|
@@ -108,12 +124,16 @@ class King < Piece
         return false
       end
 
-      invalid_moves += 1
+      invalid_moves_count += 1
     end
 
     set_position(original_row, original_col)
 
     !available_moves.empty? && invalid_moves == available_moves.length
+  end
+
+  def self.MOVE_DIFFERENCES
+    [[-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]]
   end
 end
 
