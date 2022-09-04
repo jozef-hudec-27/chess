@@ -1,6 +1,7 @@
 require_relative 'display'
 require_relative 'player'
 require_relative 'pieces'
+require 'yaml'
 
 # Main class including main logic of the game
 class Chess
@@ -24,8 +25,26 @@ class Chess
   end
 
   def play
-    game_loop
-    game_over_output
+    end_ = game_loop
+    game_over_output if end_
+  end
+
+  def save
+    serialized = YAML.dump(self)
+    Dir.mkdir('savefiles') unless Dir.exist?('savefiles')
+    File.open("savefiles/#{new_save_name}.yaml", 'w') { |file| file.puts serialized }
+    false
+  end
+
+  def new_save_name
+    puts TerminalMessages.new_save_name_question_msg
+
+    loop do
+      name = gets.chomp
+      return name if Chess.save_name_valid?(name)
+
+      puts TerminalMessages.invalid_savename_msg
+    end
   end
 
   def game_loop
@@ -33,6 +52,12 @@ class Chess
       pretty_print_board
       puts TerminalMessages.new_round_msg(round + 1, current_player.color)
       piece_cord = current_player.choose_piece
+
+      if ['save', 'quit'].include?(piece_cord)
+        return false if piece_cord == 'quit'
+
+        return save
+      end
 
       if find_piece(piece_cord).available_moves.empty?
         puts TerminalMessages.moveless_piece_msg
@@ -43,6 +68,8 @@ class Chess
       current_player.move_piece(piece_cord, new_cord)
       round_update
     end
+
+    true
   end
 
   def game_over_output
@@ -52,7 +79,7 @@ class Chess
 
     is_king1_mated = find_king(player1).mated?(current_player)
 
-    return puts TerminalMessages.game_winner_msg(player2, player1) if is_king1_ma
+    return puts TerminalMessages.game_winner_msg(player2, player1) if is_king1_mated
 
     puts TerminalMessages.game_winner_msg(player1, player2)
   end
@@ -113,6 +140,18 @@ class Chess
     return false if row.negative? || col.negative? || row > 7 || col > 7
 
     board[row][col].nil? || (board[row][col].player.color != piece.player.color ? 'take' : false)
+  end
+
+  def self.save_name_valid?(name)
+    return false if name == '' || name[0] == '-'
+
+    valid_chars = 'abcdefghijklmnopqrstuvwxyz0123456789-_'
+
+    name.chars.each do |char|
+      return false unless valid_chars.include?(char)
+    end
+
+    true
   end
 
   private

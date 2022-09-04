@@ -14,7 +14,7 @@ class Player
 
     loop do
       position = gets.chomp
-      return position if piece_input_valid?(position)
+      return position if piece_input_valid?(position) || ['save', 'quit'].include?(position)
 
       puts TerminalMessages.invalid_piece_msg
     end

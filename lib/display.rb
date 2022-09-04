@@ -120,7 +120,7 @@ module TerminalMessages
   end
 
   def self.choose_save_msg(files)
-    "> Choose one of these files: #{files.join(' ')}".blue
+    "> Choose one of these files: #{files.join(', ')}".blue
   end
 
   def self.quit_loading_game_msg
@@ -129,5 +129,21 @@ module TerminalMessages
 
   def self.no_save_found_msg
     "There's no such savefile.".red.bold
+  end
+
+  def self.invalid_savename_msg
+    '> This savename is invalid. Enter a new one.'.red.bold
+  end
+
+  def self.new_save_name_question_msg
+    '> What do you want to name your save?'
+  end
+
+  def self.play_again_confirm_msg
+    "Do you want to play again? Enter 'y' if so."
+  end
+
+  def self.goodbye_msg
+    'Have a nice day!'
   end
 end
