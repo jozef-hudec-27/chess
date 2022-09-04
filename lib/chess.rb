@@ -24,14 +24,14 @@ class Chess
     self.current_player = player1 == current_player ? player2 : player1
   end
 
-  def play
-    end_ = game_loop
-    game_over_output if end_
+  def play(current_savename = nil)
+    game_finished = game_loop(current_savename)
+    game_over_output if game_finished
   end
 
-  def save
+  def save(current_savename)
     serialized_game = YAML.dump(self)
-    savename = new_save_name
+    savename = new_save_name(current_savename)
     Dir.mkdir('savefiles') unless Dir.exist?('savefiles')
     File.open("savefiles/#{savename}.yaml", 'w') { |file| file.puts serialized_game }
 
@@ -39,8 +39,9 @@ class Chess
     false
   end
 
-  def new_save_name
+  def new_save_name(current_savename)
     puts TerminalMessages.new_save_name_question_msg
+    puts TerminalMessages.overwrite_current_save_msg(current_savename) unless current_savename.nil?
 
     loop do
       name = gets.chomp
@@ -50,7 +51,7 @@ class Chess
     end
   end
 
-  def game_loop
+  def game_loop(current_savename)
     until game_over?
       pretty_print_board
       puts TerminalMessages.new_round_msg(round + 1, current_player.color)
@@ -59,7 +60,7 @@ class Chess
       if ['save', 'quit'].include?(piece_cord)
         return Chess.quit_game if piece_cord == 'quit'
 
-        return save
+        return save(current_savename)
       end
 
       if find_piece(piece_cord).available_moves.empty?

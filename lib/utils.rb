@@ -4,7 +4,7 @@ require 'yaml'
 
 def game
   option = game_option
-  return Chess.new if option == '1'
+  return [Chess.new, nil] if option == '1'
 
   load_game
 end
@@ -29,21 +29,21 @@ def load_game
 
   msg_and_sleep(savename == 'q' ? 'Starting a new game...' : "Loading #{savename}...", 1)
 
-  return Chess.new if savename == 'q'
+  return [Chess.new, nil] if savename == 'q'
 
   serialized = File.read("savefiles/#{savename}.yaml")
-  YAML.load(serialized, aliases: true, permitted_classes: [Chess, Player, Rook, Knight, Bishop, Queen, King, Pawn])
+  [YAML.load(serialized, aliases: true, permitted_classes: [Chess, Player, Rook, Knight, Bishop, Queen, King, Pawn]), savename]
 end
 
 def load_game_name
-  savefiles = savefiles_directory.children.map { |filename| filename.split('.')[0] }
+  savenames = savefiles_directory.children.map { |filename| filename.split('.')[0] }
 
-  puts TerminalMessages.choose_save_msg(savefiles)
+  puts TerminalMessages.choose_save_msg(savenames)
   puts TerminalMessages.quit_loading_game_msg 
 
   loop do
     savename = gets.chomp
-    return savename if savefiles.include?(savename) || savename == 'q'
+    return savename if savenames.include?(savename) || savename == 'q'
 
     puts TerminalMessages.no_save_found_msg
   end
@@ -52,4 +52,11 @@ end
 def msg_and_sleep(msg, sleep_time)
   puts msg
   sleep(sleep_time)
+end
+
+def delete_save(savename)
+  return unless File.exist?("savefiles/#{savename}")
+
+  msg_and_sleep("Deleting '#{savename}'...", 1)
+  File.delete("savefiles/#{savename}.yaml")
 end
