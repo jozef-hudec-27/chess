@@ -27,6 +27,8 @@ class Chess
   def play(current_savename = nil)
     game_finished = game_loop(current_savename)
     game_over_output if game_finished
+
+    File.delete("savefiles/#{current_savename}.yaml") if game_finished && should_delete_current_save?(current_savename)
   end
 
   def save(current_savename)
@@ -41,7 +43,7 @@ class Chess
 
   def new_save_name(current_savename)
     puts TerminalMessages.new_save_name_question_msg
-    puts TerminalMessages.overwrite_current_save_msg(current_savename) unless current_savename.nil?
+    puts "> #{current_savename && "If you want to overwrite current save, enter '#{current_savename}'. "}#{TerminalMessages.overwrite_saves_warn_msg}"
 
     loop do
       name = gets.chomp
@@ -49,6 +51,13 @@ class Chess
 
       puts TerminalMessages.invalid_savename_msg
     end
+  end
+
+  def should_delete_current_save?(current_savename)
+    return false if current_savename.nil? 
+
+    puts "> Do you want to remove current save (#{current_savename}), since the game is finished? Enter 'y' if yes."
+    gets.chomp == 'y'
   end
 
   def game_loop(current_savename)

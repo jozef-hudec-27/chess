@@ -143,9 +143,9 @@ module TerminalMessages
     "Saving current game as '#{filename}'..."
   end
 
-  def self.overwrite_current_save_msg(savename)
+  def self.overwrite_saves_warn_msg
     savenames = Dir.new('savefiles').children.map { |filename| filename.split('.')[0] }
-    "> If you want to overwrite current save, enter '#{savename}'. Be careful not to overwrite any other savefiles if you don't wish to. They are: #{savenames.join(', ')}."
+    "Be careful not to overwrite any other savefiles if you don't wish to. They are: #{savenames.join(', ')}."
   end
 
   def self.quitting_game_msg

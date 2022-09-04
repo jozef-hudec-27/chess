@@ -53,10 +53,3 @@ def msg_and_sleep(msg, sleep_time)
   puts msg
   sleep(sleep_time)
 end
-
-def delete_save(savename)
-  return unless File.exist?("savefiles/#{savename}")
-
-  msg_and_sleep("Deleting '#{savename}'...", 1)
-  File.delete("savefiles/#{savename}.yaml")
-end
