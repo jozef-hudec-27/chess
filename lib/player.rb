@@ -2,11 +2,11 @@ require_relative 'pieces'
 require_relative 'display'
 
 class Player
-  attr_reader :color, :board
+  attr_reader :color, :chess
 
-  def initialize(color, board)
+  def initialize(color, chess)
     @color = color
-    @board = board
+    @chess = chess
   end
 
   def choose_piece
@@ -24,7 +24,7 @@ class Player
     return false unless Player.valid_coordinate?(input)
 
     row, col = *Player.coordinate_to_row_col(input)
-    board.board[row][col]&.player == self
+    chess.board[row][col]&.player == self
   end
 
   def choose_new_position(selected_piece)
@@ -60,7 +60,7 @@ class Player
   def move_piece(from, to)
     to_row, to_col = *Player.coordinate_to_row_col(to)
     from_row, from_col = *Player.coordinate_to_row_col(from)
-    moved_piece = board.find_piece(from)
+    moved_piece = chess.find_piece(from)
     moved_piece.set_position(to_row, to_col)
     transform_pawn(moved_piece, from_row, from_col, to_row, to_col) if [0, 7].include?(to_row) && moved_piece.instance_of?(Pawn)
   end

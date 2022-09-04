@@ -1,14 +1,14 @@
 require_relative 'display'
 
 class Piece
-  attr_reader :player, :board
+  attr_reader :player, :chess
   attr_accessor :row, :col
 
   def initialize(player, row, col)
     @player = player
     @row = row
     @col = col
-    @board = player.board
+    @chess = player.chess
   end
 
   def available_moves_places(differences, piece)
@@ -16,7 +16,7 @@ class Piece
 
     differences.each do |add_to_row, add_to_col|
       new_row, new_col = row + add_to_row, col + add_to_col
-      moves.push([new_row, new_col]) if board.position_valid?(new_row, new_col, piece)
+      moves.push([new_row, new_col]) if chess.position_valid?(new_row, new_col, piece)
     end
 
     moves
@@ -29,7 +29,7 @@ class Piece
       new_row, new_col = row + add_to_row, col + add_to_col
 
       loop do
-        pos_val = board.position_valid?(new_row, new_col, piece)
+        pos_val = chess.position_valid?(new_row, new_col, piece)
         moves.push([new_row, new_col]) if pos_val
         break if !pos_val || pos_val == 'take'
 
@@ -44,19 +44,19 @@ class Piece
     takes = []
 
     available_moves.each do |r, c|
-      takes.push([r, c]) unless board.board[r][c].nil?
+      takes.push([r, c]) unless chess.board[r][c].nil?
     end
 
     takes
   end
 
   def enemy_pieces
-    board.board.flatten.filter { |piece| piece && piece.player.color != player.color }
+    chess.board.flatten.filter { |piece| piece && piece.player.color != player.color }
   end
 
   def set_position(r = row, c = col)
-    board.board[row][col] = nil
-    board.board[r][c] = self
+    chess.board[row][col] = nil
+    chess.board[r][c] = self
 
     self.row = r
     self.col = c
@@ -203,11 +203,11 @@ class Pawn < Piece
     [-1, 1].each do |add_to_col|
       new_row, new_col = row + add_to_row, col + add_to_col
       moves.push([new_row, new_col]) if new_row.between?(0, 7) && new_col.between?(0, 7) &&
-        board.board[new_row][new_col] && board.board[new_row][new_col].player.color != player.color
+        chess.board[new_row][new_col] && chess.board[new_row][new_col].player.color != player.color
     end
 
-    moves.push([row + add_to_row, col]) if (row + add_to_row).between?(0, 7) && board.board[row + add_to_row][col].nil?
-    moves.push([row + add_to_row * 2, col]) if unmoved? && board.board[row + add_to_row * 2][col].nil?
+    moves.push([row + add_to_row, col]) if (row + add_to_row).between?(0, 7) && chess.board[row + add_to_row][col].nil?
+    moves.push([row + add_to_row * 2, col]) if unmoved? && chess.board[row + add_to_row * 2][col].nil?
     moves
   end
 
