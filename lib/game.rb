@@ -105,6 +105,7 @@ class Chess
     pretty_row = ->(row, i) { [8 - i] + row.each_with_index.map { |pos, j| pos.nil? ? [Unicode.square_white, Unicode.square_black][(j + i) % 2] : pos.unicode } }
     pretty_board = board.each_with_index.map { |row, i| pretty_row.call(row, i) }
     pretty_board.unshift(["  #{'abcdefgh'.split('').join(' ')}"])
+    puts "\n"
     pretty_board.each { |row| puts row.join(' ') }
   end
 
