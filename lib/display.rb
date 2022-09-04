@@ -1,4 +1,4 @@
-module Display
+module Unicode
   def self.king_white
     '♔'
   end

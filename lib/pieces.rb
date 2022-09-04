@@ -73,7 +73,7 @@ end
 
 class King < Piece
   def unicode
-    player.color == 'black' ? Display.king_black : Display.king_white
+    player.color == 'black' ? Unicode.king_black : Unicode.king_white
   end
 
   def available_moves
@@ -152,7 +152,7 @@ end
 
 class Queen < Piece
   def unicode
-    player.color == 'black' ? Display.queen_black : Display.queen_white
+    player.color == 'black' ? Unicode.queen_black : Unicode.queen_white
   end
 
   def available_moves
@@ -163,7 +163,7 @@ end
 
 class Rook < Piece
   def unicode
-    player.color == 'black' ? Display.rook_black : Display.rook_white
+    player.color == 'black' ? Unicode.rook_black : Unicode.rook_white
   end
 
   def available_moves
@@ -173,7 +173,7 @@ end
 
 class Bishop < Piece
   def unicode
-    player.color == 'black' ? Display.bishop_black : Display.bishop_white
+    player.color == 'black' ? Unicode.bishop_black : Unicode.bishop_white
   end
 
   def available_moves
@@ -183,7 +183,7 @@ end
 
 class Knight < Piece
   def unicode
-    player.color == 'black' ? Display.knight_black : Display.knight_white
+    player.color == 'black' ? Unicode.knight_black : Unicode.knight_white
   end
 
   def available_moves
@@ -193,7 +193,7 @@ end
 
 class Pawn < Piece
   def unicode
-    player.color == 'black' ? Display.pawn_black : Display.pawn_white
+    player.color == 'black' ? Unicode.pawn_black : Unicode.pawn_white
   end
 
   def available_moves

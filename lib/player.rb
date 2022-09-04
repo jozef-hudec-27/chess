@@ -41,7 +41,7 @@ class Player
   def print_new_position_info(selected_piece)
     available_moves, available_moves_cord, available_takes, available_takes_cord, available_moves_wo_takes = *get_all_moves(selected_piece)
 
-    puts 'Choose where you want to move selected piece'.red
+    puts 'Choose where you want to move selected piece'
     puts "Available moves: #{available_moves_wo_takes.join(' ')}" unless available_moves_wo_takes.empty?
     puts "Available takes: #{available_takes_cord.join(' ')}" unless available_takes_cord.empty?
   end
