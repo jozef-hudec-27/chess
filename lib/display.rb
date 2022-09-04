@@ -110,4 +110,24 @@ module TerminalMessages
   def self.choose_pawn_transformation_msg
     '> Enter a number 1 to 4 of the piece you want to transform to.'.blue
   end
+
+  def self.choose_game_msg
+    '> Do you want to play a new game (1) or load an existing game (2)?'.blue
+  end
+
+  def self.invalid_game_option_msg
+    "Please, enter only '1' or '2'.".red.bold
+  end
+
+  def self.choose_save_msg(files)
+    "> Choose one of these files: #{files.join(' ')}".blue
+  end
+
+  def self.quit_loading_game_msg
+    "> If you changed your mind, enter 'q' to start a new game."
+  end
+
+  def self.no_save_found_msg
+    "There's no such savefile.".red.bold
+  end
 end

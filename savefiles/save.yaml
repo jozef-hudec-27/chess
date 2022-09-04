@@ -1,0 +1,202 @@
+--- &1 !ruby/object:Chess
+player1: &2 !ruby/object:Player
+  color: white
+  board: *1
+player2: &3 !ruby/object:Player
+  color: black
+  board: *1
+current_player: *2
+round: 0
+board:
+- - !ruby/object:Rook
+    player: *3
+    row: 0
+    col: 0
+    board: *1
+  - !ruby/object:Knight
+    player: *3
+    row: 0
+    col: 1
+    board: *1
+  - !ruby/object:Bishop
+    player: *3
+    row: 0
+    col: 2
+    board: *1
+  - !ruby/object:Queen
+    player: *3
+    row: 0
+    col: 3
+    board: *1
+  - !ruby/object:King
+    player: *3
+    row: 0
+    col: 4
+    board: *1
+  - !ruby/object:Bishop
+    player: *3
+    row: 0
+    col: 5
+    board: *1
+  - !ruby/object:Knight
+    player: *3
+    row: 0
+    col: 6
+    board: *1
+  - !ruby/object:Rook
+    player: *3
+    row: 0
+    col: 7
+    board: *1
+- - !ruby/object:Pawn
+    player: *3
+    row: 1
+    col: 0
+    board: *1
+  - !ruby/object:Pawn
+    player: *3
+    row: 1
+    col: 1
+    board: *1
+  - !ruby/object:Pawn
+    player: *3
+    row: 1
+    col: 2
+    board: *1
+  - !ruby/object:Pawn
+    player: *3
+    row: 1
+    col: 3
+    board: *1
+  - !ruby/object:Pawn
+    player: *3
+    row: 1
+    col: 4
+    board: *1
+  - !ruby/object:Pawn
+    player: *3
+    row: 1
+    col: 5
+    board: *1
+  - !ruby/object:Pawn
+    player: *3
+    row: 1
+    col: 6
+    board: *1
+  - !ruby/object:Pawn
+    player: *3
+    row: 1
+    col: 7
+    board: *1
+- -
+  -
+  -
+  -
+  -
+  -
+  -
+  -
+- -
+  -
+  -
+  -
+  -
+  -
+  -
+  -
+- -
+  -
+  -
+  -
+  -
+  -
+  -
+  -
+- -
+  -
+  -
+  -
+  -
+  -
+  -
+  -
+- - !ruby/object:Pawn
+    player: *2
+    row: 6
+    col: 0
+    board: *1
+  - !ruby/object:Pawn
+    player: *2
+    row: 6
+    col: 1
+    board: *1
+  - !ruby/object:Pawn
+    player: *2
+    row: 6
+    col: 2
+    board: *1
+  - !ruby/object:Pawn
+    player: *2
+    row: 6
+    col: 3
+    board: *1
+  - !ruby/object:Pawn
+    player: *2
+    row: 6
+    col: 4
+    board: *1
+  - !ruby/object:Pawn
+    player: *2
+    row: 6
+    col: 5
+    board: *1
+  - !ruby/object:Pawn
+    player: *2
+    row: 6
+    col: 6
+    board: *1
+  - !ruby/object:Pawn
+    player: *2
+    row: 6
+    col: 7
+    board: *1
+- - !ruby/object:Rook
+    player: *2
+    row: 7
+    col: 0
+    board: *1
+  - !ruby/object:Knight
+    player: *2
+    row: 7
+    col: 1
+    board: *1
+  - !ruby/object:Bishop
+    player: *2
+    row: 7
+    col: 2
+    board: *1
+  - !ruby/object:Queen
+    player: *2
+    row: 7
+    col: 3
+    board: *1
+  - !ruby/object:King
+    player: *2
+    row: 7
+    col: 4
+    board: *1
+  - !ruby/object:Bishop
+    player: *2
+    row: 7
+    col: 5
+    board: *1
+  - !ruby/object:Knight
+    player: *2
+    row: 7
+    col: 6
+    board: *1
+  - !ruby/object:Rook
+    player: *2
+    row: 7
+    col: 7
+    board: *1

@@ -119,6 +119,3 @@ class Chess
 
   attr_writer :board, :current_player, :round
 end
-
-c = Chess.new
-c.play
