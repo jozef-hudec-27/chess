@@ -139,6 +139,14 @@ module TerminalMessages
     '> What do you want to name your save?'
   end
 
+  def self.saving_game_msg(filename)
+    "Saving current game as '#{filename}'..."
+  end
+
+  def self.quitting_game_msg
+    '> Quitting current game...'
+  end
+
   def self.play_again_confirm_msg
     "Do you want to play again? Enter 'y' if so."
   end

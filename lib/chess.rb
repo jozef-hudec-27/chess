@@ -30,9 +30,12 @@ class Chess
   end
 
   def save
-    serialized = YAML.dump(self)
+    serialized_game = YAML.dump(self)
+    savename = new_save_name
     Dir.mkdir('savefiles') unless Dir.exist?('savefiles')
-    File.open("savefiles/#{new_save_name}.yaml", 'w') { |file| file.puts serialized }
+    File.open("savefiles/#{savename}.yaml", 'w') { |file| file.puts serialized_game }
+
+    puts(TerminalMessages.saving_game_msg(savename)) || sleep(1)
     false
   end
 
@@ -54,7 +57,7 @@ class Chess
       piece_cord = current_player.choose_piece
 
       if ['save', 'quit'].include?(piece_cord)
-        return false if piece_cord == 'quit'
+        return Chess.quit_game if piece_cord == 'quit'
 
         return save
       end
@@ -152,6 +155,12 @@ class Chess
     end
 
     true
+  end
+
+  def self.quit_game
+    puts(TerminalMessages.quitting_game_msg) || sleep(1)
+    
+    false
   end
 
   private
