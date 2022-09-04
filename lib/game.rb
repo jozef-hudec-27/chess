@@ -102,10 +102,10 @@ class Chess
   end
 
   def pretty_print_board
-    pretty_row = ->(row, i) { [8 - i] + row.map { |pos| pos.nil? ? '□' : pos.unicode } }
+    pretty_row = ->(row, i) { [8 - i] + row.each_with_index.map { |pos, j| pos.nil? ? ['□', '■'][(j + i) % 2] : pos.unicode } }
     pretty_board = board.each_with_index.map { |row, i| pretty_row.call(row, i) }
-    pretty_board.unshift(["   #{'abcdefgh'.split('').join('    ')}"])
-    pretty_board.each { |row| p row }
+    pretty_board.unshift(["  #{'abcdefgh'.split('').join(' ')}"])
+    pretty_board.each { |row| puts row.join(' ') }
   end
 
   def position_valid?(row, col, piece)
