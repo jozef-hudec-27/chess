@@ -27,9 +27,8 @@ class Player
   end
 
   def choose_new_position(selected_piece)
-    puts 'Choose where you want to move selected piece.'
-    available_moves = selected_piece.available_moves.map { |r, c| Player.row_col_to_coordinate(r, c) }
-    puts "Available moves: #{available_moves.join(' ') }"
+    print_new_position_info(selected_piece)
+    available_moves = get_all_moves(selected_piece)[1]
 
     loop do
       position = gets.chomp
@@ -37,6 +36,24 @@ class Player
 
       puts 'Invalid position.'
     end
+  end
+
+  def print_new_position_info(selected_piece)
+    available_moves, available_moves_cord, available_takes, available_takes_cord, available_moves_wo_takes = *get_all_moves(selected_piece)
+
+    puts 'Choose where you want to move selected piece'.red
+    puts "Available moves: #{available_moves_wo_takes.join(' ')}" unless available_moves_wo_takes.empty?
+    puts "Available takes: #{available_takes_cord.join(' ')}" unless available_takes_cord.empty?
+  end
+
+  def get_all_moves(selected_piece)
+    available_moves = selected_piece.available_moves
+    available_moves_cord = available_moves.map { |r, c| Player.row_col_to_coordinate(r, c) }
+    available_takes = selected_piece.available_takes
+    available_takes_cord = available_takes.map { |r, c| Player.row_col_to_coordinate(r, c) }
+    available_moves_wo_takes = available_moves_cord - available_takes_cord
+
+    [available_moves, available_moves_cord, available_takes, available_takes_cord, available_moves_wo_takes]
   end
 
   def move_piece(from, to)

@@ -40,6 +40,16 @@ class Piece
     moves
   end
 
+  def available_takes
+    takes = []
+
+    available_moves.each do |r, c|
+      takes.push([r, c]) unless board.board[r][c].nil?
+    end
+
+    takes
+  end
+
   def enemy_pieces
     board.board.flatten.filter { |piece| piece && piece.player.color != player.color }
   end
@@ -153,7 +163,7 @@ end
 
 class Rook < Piece
   def unicode
-    player.color == 'black' ? Display.bishop_black : Display.bishop_white
+    player.color == 'black' ? Display.rook_black : Display.rook_white
   end
 
   def available_moves
