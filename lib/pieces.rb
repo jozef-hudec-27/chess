@@ -97,7 +97,8 @@ class King < Piece
 
   def checked?
     enemy_pieces.each do |piece|
-      enemy_moves = piece.instance_of?(King) ? piece.available_moves_places(King.MOVE_DIFFERENCES, piece) : piece.available_moves
+      enemy_moves = piece.instance_of?(King) ? piece.available_moves_places(King.MOVE_DIFFERENCES,
+                                                                            piece) : piece.available_moves
       return true if enemy_moves.include?([row, col])
     end
 
@@ -203,7 +204,7 @@ class Pawn < Piece
     [-1, 1].each do |add_to_col|
       new_row, new_col = row + add_to_row, col + add_to_col
       moves.push([new_row, new_col]) if new_row.between?(0, 7) && new_col.between?(0, 7) &&
-        chess.board[new_row][new_col] && chess.board[new_row][new_col].player.color != player.color
+                                        chess.board[new_row][new_col] && chess.board[new_row][new_col].player.color != player.color
     end
 
     moves.push([row + add_to_row, col]) if (row + add_to_row).between?(0, 7) && chess.board[row + add_to_row][col].nil?

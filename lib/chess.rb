@@ -54,7 +54,7 @@ class Chess
   end
 
   def should_delete_current_save?(current_savename)
-    return false if current_savename.nil? 
+    return false if current_savename.nil?
 
     puts "> Do you want to remove current save (#{current_savename}), since the game is finished? Enter 'y' if yes."
     gets.chomp == 'y'
@@ -113,7 +113,7 @@ class Chess
     8.times do |row|
       8.times do |col|
         piece = board[row][col]
-        return piece if piece.instance_of?(King) && piece.player == player 
+        return piece if piece.instance_of?(King) && piece.player == player
       end
     end
   end
@@ -142,7 +142,11 @@ class Chess
   end
 
   def pretty_print_board
-    pretty_row = ->(row, i) { [(8 - i).to_s.bg_magenta] + row.each_with_index.map { |pos, j| pos.nil? ? [Unicode.square_white, Unicode.square_black][(j + i) % 2] : pos.unicode } }
+    pretty_row = ->(row, i) {
+      [(8 - i).to_s.bg_magenta] + row.each_with_index.map { |pos, j|
+                                    pos.nil? ? [Unicode.square_white, Unicode.square_black][(j + i) % 2] : pos.unicode
+                                  }
+    }
     pretty_board = board.each_with_index.map { |row, i| pretty_row.call(row, i) }
     pretty_board.unshift(["  #{'abcdefgh'.split('').join(' ')}".bg_magenta])
     puts "\n"
@@ -169,7 +173,7 @@ class Chess
 
   def self.quit_game
     puts(TerminalMessages.quitting_game_msg) || sleep(1)
-    
+
     false
   end
 

@@ -62,7 +62,8 @@ class Player
     from_row, from_col = *Player.coordinate_to_row_col(from)
     moved_piece = chess.find_piece(from)
     moved_piece.set_position(to_row, to_col)
-    transform_pawn(moved_piece, from_row, from_col, to_row, to_col) if [0, 7].include?(to_row) && moved_piece.instance_of?(Pawn)
+    transform_pawn(moved_piece, from_row, from_col, to_row, to_col) if [0,
+                                                                        7].include?(to_row) && moved_piece.instance_of?(Pawn)
   end
 
   def transform_pawn(pawn, original_row, original_col, new_row, new_col)

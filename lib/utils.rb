@@ -32,14 +32,15 @@ def load_game
   return [Chess.new, nil] if savename == 'q'
 
   serialized = File.read("savefiles/#{savename}.yaml")
-  [YAML.load(serialized, aliases: true, permitted_classes: [Chess, Player, Rook, Knight, Bishop, Queen, King, Pawn]), savename]
+  [YAML.load(serialized, aliases: true, permitted_classes: [Chess, Player, Rook, Knight, Bishop, Queen, King, Pawn]),
+   savename]
 end
 
 def load_game_name
   savenames = savefiles_directory.children.map { |filename| filename.split('.')[0] }
 
   puts TerminalMessages.choose_save_msg(savenames)
-  puts TerminalMessages.quit_loading_game_msg 
+  puts TerminalMessages.quit_loading_game_msg
 
   loop do
     savename = gets.chomp
