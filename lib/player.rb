@@ -1,4 +1,5 @@
 require_relative 'pieces'
+require_relative 'display'
 
 class Player
   attr_reader :color, :board
@@ -9,13 +10,13 @@ class Player
   end
 
   def choose_piece
-    puts 'Choose the piece you want to move.'
+    puts TerminalMessages.choose_piece_msg
 
     loop do
       position = gets.chomp
       return position if piece_input_valid?(position)
 
-      puts 'Invalid piece position.'
+      puts TerminalMessages.invalid_piece_msg
     end
   end
 
@@ -34,16 +35,16 @@ class Player
       position = gets.chomp
       return position if available_moves.include?(position)
 
-      puts 'Invalid position.'
+      puts TerminalMessages.invalid_position_msg
     end
   end
 
   def print_new_position_info(selected_piece)
     available_moves, available_moves_cord, available_takes, available_takes_cord, available_moves_wo_takes = *get_all_moves(selected_piece)
 
-    puts 'Choose where you want to move selected piece'
-    puts "Available moves: #{available_moves_wo_takes.join(' ')}" unless available_moves_wo_takes.empty?
-    puts "Available takes: #{available_takes_cord.join(' ')}" unless available_takes_cord.empty?
+    puts TerminalMessages.choose_position_msg
+    puts TerminalMessages.available_moves_msg(available_moves_wo_takes) unless available_moves_wo_takes.empty?
+    puts TerminalMessages.available_takes_msg(available_takes_cord) unless available_takes_cord.empty?
   end
 
   def get_all_moves(selected_piece)
@@ -65,20 +66,20 @@ class Player
   end
 
   def transform_pawn(pawn, original_row, original_col, new_row, new_col)
-    puts 'Your pawn reached the other side of the board! You can transform it to a Queen (1), Rook (2), Knight (3) or Bishop (4)'
+    puts TerminalMessages.pawn_can_transform_msg
     transform_to = new_pawn_input
     transformed_piece = [Queen, Rook, Knight, Bishop][transform_to - 1].new(self, original_row, original_col)
     transformed_piece.set_position(new_row, new_col)
   end
 
   def new_pawn_input
-    puts 'Enter a number 1 to 4 of the piece you want to transform to.'
+    puts TerminalMessages.choose_pawn_transformation_msg
 
     loop do
       input = gets.chomp
       return input.to_i if ['1', '2', '3', '4'].include?(input)
 
-      puts 'Invalid input. Please enter again.'
+      puts TerminalMessages.invalid_input_msg
     end
   end
 

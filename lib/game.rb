@@ -31,11 +31,11 @@ class Chess
   def game_loop
     until game_over?
       pretty_print_board
-      puts "ROUND #{round + 1}: #{current_player.color}"
+      puts TerminalMessages.new_round_msg(round + 1, current_player.color)
       piece_cord = current_player.choose_piece
 
       if find_piece(piece_cord).available_moves.empty?
-        puts "You can't make a move with this piece. Select a new one."
+        puts TerminalMessages.moveless_piece_msg
         next
       end
 
@@ -48,13 +48,13 @@ class Chess
   def game_over_output
     pretty_print_board
 
-    return puts "It's a draw!" if stalemate?
+    return puts TerminalMessages.game_draw_msg if stalemate?
 
     is_king1_mated = find_king(player1).mated?(current_player)
 
-    return puts "#{player1.color} is mated. #{player2.color} wins!" if is_king1_mated
+    return puts TerminalMessages.game_winner_msg(player2, player1) if is_king1_ma
 
-    puts "#{player2.color} is mated. #{player1.color} wins" 
+    puts TerminalMessages.game_winner_msg(player1, player2)
   end
 
   def game_over?
@@ -102,7 +102,7 @@ class Chess
   end
 
   def pretty_print_board
-    pretty_row = ->(row, i) { [8 - i] + row.each_with_index.map { |pos, j| pos.nil? ? ['□', '■'][(j + i) % 2] : pos.unicode } }
+    pretty_row = ->(row, i) { [8 - i] + row.each_with_index.map { |pos, j| pos.nil? ? [Unicode.square_white, Unicode.square_black][(j + i) % 2] : pos.unicode } }
     pretty_board = board.each_with_index.map { |row, i| pretty_row.call(row, i) }
     pretty_board.unshift(["  #{'abcdefgh'.split('').join(' ')}"])
     pretty_board.each { |row| puts row.join(' ') }
