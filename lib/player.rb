@@ -40,7 +40,7 @@ class Player
   end
 
   def print_new_position_info(selected_piece)
-    available_moves, available_moves_cord, available_takes, available_takes_cord, available_moves_wo_takes = *get_all_moves(selected_piece)
+    _, _, _, available_takes_cord, available_moves_wo_takes = *get_all_moves(selected_piece)
 
     puts TerminalMessages.choose_position_msg
     puts TerminalMessages.available_moves_msg(available_moves_wo_takes) unless available_moves_wo_takes.empty?
@@ -62,11 +62,11 @@ class Player
     from_row, from_col = *Player.coordinate_to_row_col(from)
     moved_piece = chess.find_piece(from)
     moved_piece.set_position(to_row, to_col)
-    transform_pawn(moved_piece, from_row, from_col, to_row, to_col) if [0,
+    transform_pawn(from_row, from_col, to_row, to_col) if [0,
                                                                         7].include?(to_row) && moved_piece.instance_of?(Pawn)
   end
 
-  def transform_pawn(pawn, original_row, original_col, new_row, new_col)
+  def transform_pawn(original_row, original_col, new_row, new_col)
     puts TerminalMessages.pawn_can_transform_msg
     transform_to = new_pawn_input
     transformed_piece = [Queen, Rook, Knight, Bishop][transform_to - 1].new(self, original_row, original_col)
