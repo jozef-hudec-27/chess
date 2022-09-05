@@ -1,7 +1,7 @@
 # Chess
 This project is part of [The Odin Project's](https://theodinproject.com) Ruby curriculum.
 
-I doubt you've never heard of Chess, but in case you need a quick refresher of the rules, [here](http://www.chessvariants.org/d.chess/chess.html#touch) is an excellent source with images. 
+I doubt you've never heard of Chess, but in case you need a quick refresher of the rules, [here](http://www.chessvariants.org/d.chess/chess.html) is an excellent source with images. 
 
 ## Rules
 The game is played exactly as you would expect, that is: The two players alternate between taking turns. On each turn, a player can make a valid move. If there are no possible moves, the player chooses another piece. Once a piece is selected, the player **MUST** use it (unless there are no possible moves for the selected piece). There are two scenarios that indicate the end of the game, they are:
